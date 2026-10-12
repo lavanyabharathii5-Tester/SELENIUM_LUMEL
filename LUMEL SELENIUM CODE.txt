@@ -1,0 +1,167 @@
+
+------Selenium Code---------
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver:
+
+public class AddTodoItem {
+public static void main(String[] args)
+{
+webdriver driver = new chromeDriver();
+
+driver.get("https://todomvc.com/examples/angular/dist/browser/#/all");
+driver.manage().window().maximize();
+
+WebDriverWait wait = new WebDriverWait{driver.Duration.ofSeconds(10));
+
+//1. Added the items to list
+WebElement input = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='What needs to be done?']));
+String task = "Learn Selenium"
+input.sendkeys(task);
+
+//2. Mark the items as completed.
+Webelement checkbox= wait.until(ExpectedConditions.elementToBeClickable(By.Xpath("//a[@routerlink='/completed']"));
+
+
+//3.Double clicking on a to-do item allows edit.
+
+WebElement item= wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(""//label[text()='Learn Selenium'"));
+
+Actions actions = new Actions(driver);
+actions.doubleClick().perfrom();
+
+//4. Remove the item
+Actions(driver).moveToElement(item).perform();
+
+Webelement cancel = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[.//label[text()='Learn Selenium')]"+"//button[contains(@class,'destroy')]")));
+
+//Verify the remaining item count
+
+WebElement count = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[@class='todo-count']")));
+System.out.println("Remaining:"+count.getText());
+
+//select the Active Filter 
+
+driver.findelement(By.xpath("//a[normalize-space()='Active']")).click();
+
+System.out.println("Active items:"+driver.findelements(By.xpath("//ul[@class='todo-list']/li")).size());
+
+//select all filter 
+
+driver.findelement(By.xpath("//a[normalize-space()='All']")).click();
+
+System.out.println("All items:"+driver.findlements(By.xpath("//ul[@class='todo-list']/li")).size());
+
+driver.quit();
+}
+}
+
+
+---------------Scenario 1 - intial to do 
+
+Testcases:
+Precondition- open TodoMVC with no exisiting tasks.
+Steps: Launc the application and check the task list remaining count and filters/
+Expected Result: The list is empty, the remaining count is o items left and the filters footer are hidden if that is how the selected TodoMVC version behaves.
+
+
+//verify the no tasks exists 
+
+int taskcount = driver.findelements(By.xpath("//ui[@class='todo-list']/li")).size();
+
+if(taskcount == 0)
+{
+Sytem.out.println("Pass- Todo list is empty");
+}else{
+System.out.println("Fail- todo is not empty");
+}
+
+//Add to do
+
+WebElement input = driver.findelement(buy.Xpath("//input[@class='new-todo']"));
+input.sendkeys("learn selenium");
+input.sendkeys(Keys.ENTER);
+
+WebElement additem = driver.findelement(By.xpath("//label[text()='learn selenium']"));
+
+if (addeditem.isDisplayed()){
+Sytem.out.println("Pass- added");
+}else{
+Sytem.out.println("fail- not added");
+}
+
+
+         Testcases Written using TestNG Framwork.
+
+
+
+//Assessment - Testcase Written using TestNG Framework to assert the items are added into the list
+
+@Test
+public void verifyAddTodo(){
+WebElement input = driver.findelement(buy.Xpath("//input[@class='new-todo']"));
+input.sendkeys("learn selenium");
+input.sendkeys(Keys.ENTER);
+
+WebElement additem = driver.findelement(By.xpath("//label[text()='learn selenium']"));
+
+Assert.assertTrue(
+addedeitem.isDisplayed(),
+"todo item was not added to the list");
+}
+
+
+//Second Assert for marking the items as completed and verify items crsossed out and counter.
+
+@Test
+public void verifyTodoCompleted(){
+
+WebElement checkbox = driver.findelement(By.xpath("//li[.//label[text()='learn selenium']]//input[@type='checkbox']"));
+
+checkbox.click();
+
+WebElement item = driver.findelement(By.xpath("//li[.//label[text()='learn selenium']]"));
+
+Assert.assertTrue(
+item.getAttribute("class").contains("completed"),"Todo item is not completed");
+
+WebElement count = driver.findelement(By.xpath("//span[@class='todo-count']"));
+
+Assert.assertEquals(
+count.getText(),"O items left","remaining todo count is incoorect");
+}
+
+//Delete to do verify the item is remvoed from the list.
+
+@Test
+
+public void verifyDeleteTodo(){
+WebElement item = driver.findelement(By.xpath("//li[.//label[text()='learn selenium']]")); //locate the item
+Actions actions = new Actions(driver);// hover the item.
+actions.moveToElement(item).perform();
+
+driver.findelement (By.xpath("//li[.//label[text()='learn selenium']]//button[@class ='destroy']")).click();
+
+//Assert the item is removed
+
+Assert.assertTrue(
+driver.findelements(By.xpath("//lable[text()='learn selenium']")).isEmpty(),"Toto item was not deleted");
+}
+
+//Filtering 
+
+@Test
+
+public void verifyActiveTodoFilter(){
+//click hte active filter
+driver.findelement(xpath for the active element).click();
+
+//verify the only activve items are displayed
+List<WebElement> activeitems = driver.findelements(xpath for the active elements)
+
+Assert.assertTrue(
+activeitems.size()>0,"Active filter is not displaying the acive items"
+);
+)
+
+}
